@@ -16,7 +16,7 @@ class MyFirstCdkAppStack(Stack):
 
         queue = sqs.Queue(
             self, "MyFirstCdkAppQueue",
-            visibility_timeout=Duration.seconds(300),
+            visibility_timeout = Duration.seconds(300),
         )
 
         topic = sns.Topic(
