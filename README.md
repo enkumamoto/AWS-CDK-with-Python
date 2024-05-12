@@ -1,7 +1,7 @@
 # AWS-CDK-with-Python
 Files from AWS CDK with Python class
 
-### About ###
+# About #
 Here you may find something you need for your infrastructure. But remember, this repository contains files that were used to understand the concepts and perform additional exercises for the classes on AWS CDK.
 
 
