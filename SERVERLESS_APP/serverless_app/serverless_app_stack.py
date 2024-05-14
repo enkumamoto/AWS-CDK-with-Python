@@ -1,5 +1,6 @@
 from aws_cdk import (
     RemovalPolicy,
+    CfnOutput,
     Stack,
     aws_dynamodb as dynamodb,
     aws_lambda as lambda_
@@ -26,8 +27,14 @@ class ServerlessAppStack(Stack):
                                                 environment = {
                                                     "TABLE_NAME": products_table.table_name
                                                 })
-        
+        # Concedendo permissões para função Lambda para ler dados das tabelas do DynamoDB
+        products_table.grant_read_data(product_list_function.role)
+
         # Adicionando uma URL Lambda pa a Função Lambda para executa via internet
         product_list_url = product_list_function.add_function_url(
-            auth_type=lambda_.FunctionUrlAuthType.NONE
+            auth_type = lambda_.FunctionUrlAuthType.NONE
             )
+        
+        # Adicionando um output stack para acessar facilmente a função URL
+        CfnOutput(self, "ProductUrl",
+                  value = product_list_url.url)
