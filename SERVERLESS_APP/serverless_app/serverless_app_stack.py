@@ -1,9 +1,11 @@
 from aws_cdk import (
     RemovalPolicy,
     CfnOutput,
+    Duration,
     Stack,
     aws_dynamodb as dynamodb,
-    aws_lambda as lambda_
+    aws_lambda as lambda_,
+    aws_cloudwatch as cloudwatch
 )
 from constructs import Construct
 
@@ -38,3 +40,16 @@ class ServerlessAppStack(Stack):
         # Adicionando um output stack para acessar facilmente a função URL
         CfnOutput(self, "ProductUrl",
                   value = product_list_url.url)
+        
+        # Configuração de alarme para métricas de erros para Lambda Function
+        errors_metric = product_list_function.metric_errors(
+            label = "ProductListFunction Error",
+            period = Duration.minutes(5),
+            statistic = cloudwatch.Stats.SUM
+        )
+
+        errors_metric.create_alarm(self, "ProductListErrorAlarm",
+                                   evaluation_periods = 1,
+                                   threshold = 1,
+                                   comparison_operator = cloudwatch.ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+                                   treat_missing_data = cloudwatch.TreatMissingData.IGNORE)
