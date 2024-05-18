@@ -8,12 +8,21 @@ from aws_cdk import (
     aws_cloudwatch as cloudwatch
 )
 from constructs import Construct
-
+from aws_solutions_cpnsstructions.aws_lambda_dynamodb import LambdaToDynamoDB
 
 class ServerlessAppStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        products_backend = LambdaToDynamoDB (self, "ProductBackend",
+                                            lambda_function_props = lambda_.FunctionProps(
+                                                code = lambda_.Code.from_asset("lambda_src"),
+                                                handler = "product_backend_function.lambda_handler",
+                                                runtime = lambda_.Runtime.PYTHON_3_10,
+                                            ),
+                                            table_environment_variable_name = "TABLE_NAME",
+                                            table_permission = "Read") # Garante permissões ao DynamoDB
 
         products_table = dynamodb.Table (self, "ProductsTable",
                                         partition_key = dynamodb.Attribute(
@@ -23,15 +32,11 @@ class ServerlessAppStack(Stack):
                                         billing_mode = dynamodb.BillingMode.PAY_PER_REQUEST,
                                         removal_policy = RemovalPolicy.DESTROY)
 
-        product_list_function = lambda_.Function(self, "ProductListFunction",
-                                                code = lambda_.Code.from_asset("lambda_src"),
-                                                handler = "product_list_function.lambda_handler",
-                                                runtime = lambda_.Runtime.PYTHON_3_10,
-                                                environment = {
-                                                    "TABLE_NAME": products_table.table_name
-                                                })
-        # Concedendo permissões para função Lambda para ler dados das tabelas do DynamoDB
-        products_table.grant_read_data(product_list_function.role)
+        products_table = products_backend.dynamo_table
+
+        product_list_function = products_backend.lambda_function
+
+        products_table.apply_removal_policy(RemovalPolicy)
 
         # Adicionando uma URL Lambda pa a Função Lambda para executa via internet
         product_list_url = product_list_function.add_function_url(
