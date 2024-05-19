@@ -54,6 +54,12 @@ Verifique a instalação do AWS CDK
 cdk --version
 ```
 
+## Passo 3.1: Configurar ambiente python
+É recomendável usar um ambiente virtual para gerenciar suas dependências Python. Crie e ative um ambiente:
+
+```
+```
+
 ## Passo 4: Configure as credenciais da AWS
 
 Para que o AWS CDK possa interagir com seus recursos na AWS, você precisa configurar suas credenciais da AWS. Se você ainda não tem o AWS CLI instalado, faça isso com o comando:
