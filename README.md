@@ -25,10 +25,13 @@ sudo apt upgrade -y
 
 ## Passo 2: Instale o Node.js e o npm
 
-O AWS CDK é baseado no Node.js. Você precisa instalá-lo junto com o npm (gerenciador de pacotes do Node.js). Execute os seguintes comandos:
+O AWS CDK é baseado no Node.js. Você precisa instalá-lo junto com o npm (gerenciador de pacotes do Node.js). No Ubuntu, você pode usar o NodeSource para instalar a versão mais recente do Node.js.
+Execute os seguintes comandos:
 
 ```
-sudo apt install -y nodejs npm
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
 ```
 
 Verifique a instalação do Node.js e npm:
@@ -37,6 +40,7 @@ Verifique a instalação do Node.js e npm:
 node -v
 npm -v
 ```
+
 ## Passo 3: Instale o AWS CDK
 Agora que você tem o Node.js e o npm instalados, você pode instalar o AWS CDK. Execute o seguinte comando:
 
@@ -72,4 +76,19 @@ Crie um novo diretório para o seu projeto CDK e navegue até ele:
 mkdir meu-projeto-cdk
 cd meu-projeto-cdk
 ```
+
+Inicialize um novo projeto CDK (neste exemplo, usaremos TypeScript, mas você pode escolher outra linguagem suportada):
+
+```
+cdk init app --language python
+```
+
+## Passo 6: Instale dependências do projeto
+
+No diretório do seu projeto, instale as dependências:
+
+```
+npm install
+```
+
 
