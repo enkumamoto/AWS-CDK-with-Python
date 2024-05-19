@@ -54,12 +54,6 @@ Verifique a instalação do AWS CDK
 cdk --version
 ```
 
-## Passo 3.1: Configurar ambiente python
-É recomendável usar um ambiente virtual para gerenciar suas dependências Python. Crie e ative um ambiente:
-
-```
-```
-
 ## Passo 4: Configure as credenciais da AWS
 
 Para que o AWS CDK possa interagir com seus recursos na AWS, você precisa configurar suas credenciais da AWS. Se você ainda não tem o AWS CLI instalado, faça isso com o comando:
@@ -83,18 +77,56 @@ mkdir meu-projeto-cdk
 cd meu-projeto-cdk
 ```
 
-Inicialize um novo projeto CDK (neste exemplo, usaremos TypeScript, mas você pode escolher outra linguagem suportada):
+Inicialize um novo projeto CDK:
 
 ```
 cdk init app --language python
 ```
 
-## Passo 6: Instale dependências do projeto
-
-No diretório do seu projeto, instale as dependências:
+## Passo 6: Configurar ambiente python
+É recomendável usar um ambiente virtual para gerenciar suas dependências Python. Crie e ative um ambiente:
 
 ```
-npm install
+# Crie um ambiente virtual
+python3 -m venv .venv
+
+# Ative o ambiente virtual
+source .venv/bin/activate
+
+```
+
+Agora, com o ambiente virtual ativado, você pode instalar o AWS CDK para Python:
+
+```
+pip install aws-cdk-lib
+pip install constructs
 ```
 
 
+## Passo 7: Instalar Dependências Adicionais
+
+Durante a inicialização do projeto, o CDK criará um arquivo requirements.txt. Para instalar as dependências listadas, execute:
+
+```
+pip install -r requirements.txt
+```
+
+## Passo 8: Sintetizar e Implantar a Pilha
+
+Depois de configurar tudo, você pode sintetizar (gerar) o CloudFormation template e implantar a pilha:
+
+```
+# Sintetizar a pilha
+cdk synth
+
+# Implantar a pilha
+cdk deploy
+```
+
+## Passo 9: Limpar Recursos
+
+Para excluir os recursos criados, você pode usar o comando:
+
+```
+cdk destroy
+```
