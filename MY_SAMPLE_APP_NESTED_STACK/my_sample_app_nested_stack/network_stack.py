@@ -11,4 +11,3 @@ class NetworkStack(NestedStack):
 
         self.vpc = ec2.Vpc(self, 'MyVpc',
                          nat_gateways=0)
-        
