@@ -12,7 +12,7 @@ More details in Portuguese
 Aqui você talvez encontre alguma coisa que você precise para sua infraestrutura. Mas lembre-se, neste repositório há arquivos que foram usados para entender os conceitos e executar exercícios complementares as aulas sobre AWS CDK.
 
 ## Como Instalar AWS CDK no Ubuntu
-Como instalar o AWS Cloud Development Kit (CDK) e suas dependências no Ubuntu 22.04. Vamos lá! 🚀
+Como instalar o AWS Cloud Development Kit (CDK) e suas dependências no Ubuntu 22.04.
 
 ## Passo 1: Atualize seu sistema
 
@@ -714,3 +714,145 @@ cdk deploy ApplicationStack
 - **Exemplo Prático**: Criação de uma VPC em uma stack e uso dessa VPC em outra stack que define uma função Lambda.
 
 Usar referências entre stacks no AWS CDK é uma prática eficaz para gerenciar infraestruturas complexas de forma modular e escalável.
+
+---
+# Nested Stack
+No AWS CDK (Cloud Development Kit), uma **nested stack** é uma stack que é definida dentro de outra stack, permitindo uma maior modularização e organização da infraestrutura. Isso facilita a reutilização de componentes e a manutenção de grandes projetos de infraestrutura.
+
+### Conceito de Nested Stack
+
+**Nested stacks** são usadas para criar hierarquias de stacks, onde uma stack principal (parent stack) contém outras stacks (child stacks). As nested stacks são ideais para agrupar logicamente recursos que devem ser gerenciados e implantados juntos, mas que fazem parte de um componente maior.
+
+### Vantagens de Nested Stacks
+
+1. **Modularidade**: Facilita a divisão da infraestrutura em componentes menores e reutilizáveis.
+2. **Manutenção**: Simplifica a atualização e o gerenciamento de diferentes partes da infraestrutura.
+3. **Escalabilidade**: Permite gerenciar infraestruturas complexas de maneira mais organizada.
+4. **Reutilização**: Componentes definidos em nested stacks podem ser reutilizados em diferentes partes da aplicação.
+
+### Exemplo de Uso de Nested Stacks
+
+Vamos criar um exemplo onde uma stack principal define duas nested stacks: uma para recursos de rede e outra para uma aplicação.
+
+#### Estrutura de Diretórios
+
+```
+my-nested-stack-app/
+├── app.py
+├── cdk.json
+├── requirements.txt
+├── network/
+│   ├── __init__.py
+│   └── network_stack.py
+├── application/
+│   ├── __init__.py
+│   └── application_stack.py
+├── parent/
+│   ├── __init__.py
+│   └── parent_stack.py
+└── .gitignore
+```
+
+#### Arquivo `app.py`
+
+Este arquivo é o ponto de entrada da aplicação CDK, onde a stack principal é instanciada.
+
+```python
+from aws_cdk import core
+from parent.parent_stack import ParentStack
+
+app = core.App()
+ParentStack(app, "ParentStack")
+app.synth()
+```
+
+#### Arquivo `network/network_stack.py`
+
+Define a stack de rede que cria uma VPC.
+
+```python
+from aws_cdk import core
+from aws_cdk import aws_ec2 as ec2
+
+class NetworkStack(core.NestedStack):
+
+    def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
+
+        # Definição de uma VPC
+        self.vpc = ec2.Vpc(self, "MyVpc",
+            max_azs=3  # Número de zonas de disponibilidade
+        )
+```
+
+#### Arquivo `application/application_stack.py`
+
+Define a stack de aplicação que usa a VPC criada na stack de rede.
+
+```python
+from aws_cdk import core
+from aws_cdk import aws_lambda as _lambda
+
+class ApplicationStack(core.NestedStack):
+
+    def __init__(self, scope: core.Construct, id: str, vpc, **kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
+
+        # Exemplo de função Lambda dentro da VPC
+        lambda_function = _lambda.Function(self, "MyFunction",
+            runtime=_lambda.Runtime.PYTHON_3_8,
+            handler="index.handler",
+            code=_lambda.Code.from_asset("lambda"),
+            vpc=vpc  # Referência à VPC criada na NetworkStack
+        )
+```
+
+#### Arquivo `parent/parent_stack.py`
+
+Define a stack principal que contém as nested stacks de rede e aplicação.
+
+```python
+from aws_cdk import core
+from network.network_stack import NetworkStack
+from application.application_stack import ApplicationStack
+
+class ParentStack(core.Stack):
+
+    def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
+
+        # Instanciando a stack de rede
+        network_stack = NetworkStack(self, "NetworkStack")
+
+        # Instanciando a stack da aplicação, que depende da stack de rede
+        application_stack = ApplicationStack(self, "ApplicationStack", vpc=network_stack.vpc)
+```
+
+### Como Funciona
+
+1. **Stack Principal**: A `ParentStack` é a stack principal que contém as nested stacks.
+2. **Nested Stacks**: `NetworkStack` e `ApplicationStack` são definidas como nested stacks dentro da `ParentStack`.
+3. **Referências Entre Stacks**: A `ApplicationStack` recebe a VPC criada na `NetworkStack` como parâmetro, permitindo que os recursos definidos na `ApplicationStack` utilizem a VPC.
+
+### Benefícios
+
+- **Organização**: Nested stacks ajudam a organizar a infraestrutura em componentes menores e mais gerenciáveis.
+- **Reutilização**: Componentes definidos em nested stacks podem ser reutilizados em diferentes partes do projeto ou em diferentes projetos.
+- **Isolamento**: Recursos em nested stacks são isolados, facilitando a depuração e a manutenção.
+
+### Implantação
+
+Para implantar a stack principal que contém as nested stacks, use o comando `cdk deploy`:
+
+```sh
+cdk deploy
+```
+
+### Resumo
+
+- **Nested Stacks**: Permitem criar hierarquias de stacks, facilitando a modularização e organização da infraestrutura.
+- **Vantagens**: Modularidade, manutenção simplificada, escalabilidade e reutilização de componentes.
+- **Exemplo Prático**: Criação de uma stack principal contendo nested stacks para recursos de rede e aplicação.
+- **Implantação**: Uso do comando `cdk deploy` para implantar a stack principal e suas nested stacks.
+
+As nested stacks no AWS CDK são uma ferramenta poderosa para gerenciar infraestruturas complexas, promovendo uma abordagem modular e organizada para definir e implantar recursos.
