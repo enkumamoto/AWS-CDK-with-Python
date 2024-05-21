@@ -601,7 +601,7 @@ No AWS CDK (Cloud Development Kit), **cross-stack references** (referências ent
 
 ### Exemplo de Uso de Cross-Stack References
 
-Vamos criar um exemplo onde uma stack define uma VPC e outra stack cria uma função Lambda que usa essa VPC.
+Um exemplo onde uma stack define uma VPC e outra stack cria uma função Lambda que usa essa VPC.
 
 #### Estrutura de Diretórios
 
@@ -732,7 +732,7 @@ No AWS CDK (Cloud Development Kit), uma **nested stack** é uma stack que é def
 
 ### Exemplo de Uso de Nested Stacks
 
-Vamos criar um exemplo onde uma stack principal define duas nested stacks: uma para recursos de rede e outra para uma aplicação.
+Um exemplo onde uma stack principal define duas nested stacks: uma para recursos de rede e outra para uma aplicação.
 
 #### Estrutura de Diretórios
 
