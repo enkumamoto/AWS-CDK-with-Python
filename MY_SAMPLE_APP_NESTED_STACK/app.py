@@ -13,7 +13,7 @@ root_stack = cdk.Stack(app, "RootStack")
 
 network_stack = NetworkStack(root_stack, "NetworkStack")
 
-MySampleAppNestedStackStack(app, "MySampleAppNestedStackStack", 
+MySampleAppNestedStackStack(root_stack, "MySampleAppNestedStackStack", 
                             my_vpc=network_stack.vpc)
 
 app.synth()
