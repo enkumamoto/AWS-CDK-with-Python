@@ -11,4 +11,4 @@ More details in Portuguese
 ## Sobre 
 Aqui você talvez encontre alguma coisa que você precise para sua infraestrutura. Mas lembre-se, neste repositório há arquivos que foram usados para entender os conceitos e executar exercícios complementares as aulas sobre AWS CDK.
 
-Vrificar diretórios 01 e 02 para mais detalhes.
+Verificar diretório 02 para mais detalhes.
