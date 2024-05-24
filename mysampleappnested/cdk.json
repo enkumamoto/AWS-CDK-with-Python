@@ -10,7 +10,7 @@
       "requirements*.txt",
       "source.bat",
       "**/__init__.py",
-      "**/__pycache__",
+      "python/__pycache__",
       "tests"
     ]
   },
