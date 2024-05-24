@@ -17,6 +17,9 @@ application_stack = MySampleAppWebserverStack(app, "MySampleAppWebserverStack",
 
 # Adicionando tags para a stacks 
 cdk.Tags.of(network_stack).add("category", "networking")
-cdk.Tags.of(application_stack).add("category", "application")
+
+# Adicionando prioridade as tags
+cdk.Tags.of(application_stack).add("category", "application",
+                                    priority = 200)
 
 app.synth()

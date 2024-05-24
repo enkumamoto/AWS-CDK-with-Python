@@ -55,7 +55,8 @@ class MySampleAppWebserverStack(Stack):
                                 include_resource_types = ['AWS::EC2::Instance'])
         Tags.of(web_server).add("subcategory", "side",
                                 include_resource_types = ['AWS::EC2::Instance'])
-                                # exclude_resource_types = ['AWS::EC2::Instance'])
+                                # exclude_resource_types = ['AWS::EC2::Instance'],
+                                # priority = 300)
 
         # Removendo tags para construções                        
         # Tags.of(web_server).remove("subcategory")
