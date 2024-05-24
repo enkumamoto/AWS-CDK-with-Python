@@ -37,8 +37,8 @@ Neste trecho de código, uma instância EC2 é criada dentro da stack `MySampleA
 ```python
 # Adicionando tags para construções
 Tags.of(web_server).add("category", "webserver")
-Tags.of(web_server).add("subcategory", "primário",
-                        include_resource_type = ['AWS::EC2::Instance'])
+Tags.of(web_server).add("subcategory", "primary",
+                        include_resource_types = ['AWS::EC2::Instance'])
 ```
 
 Aqui, duas tags são adicionadas à instância EC2 (`web_server`):
@@ -50,7 +50,7 @@ Aqui, duas tags são adicionadas à instância EC2 (`web_server`):
 
 2. **Segunda Tag**: Adiciona uma tag com chave `"subcategory"` e valor `"primário"` à instância EC2, mas especifica que essa tag deve ser aplicada apenas aos recursos do tipo `AWS::EC2::Instance`.
     ```python
-    Tags.of(web_server).add("subcategory", "primário", include_resource_type = ['AWS::EC2::Instance'])
+    Tags.of(web_server).add("subcategory", "primário", include_resource_types = ['AWS::EC2::Instance'])
     ```
 
 ### Como Funciona

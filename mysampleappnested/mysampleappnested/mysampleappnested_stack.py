@@ -42,8 +42,10 @@ class MysampleappnestedStack(NestedStack):
                                           path = 'web_pages/index.html')
         web_page_asset.grant_read (web_server.role)
 
+        # Cria um comando para baixar o arquivo
         web_server.user_data.add_s3_download_command (bucket = web_page_asset.bucket,
                                                       bucket_key = web_page_asset.s3_object_key,
                                                       local_file = '/usr/share/nginx/html/index.html')
 
-        web_server.user_data.add_execute_command ('sudo service nginx start')
+        # Inicia o webserver
+        web_server.add_user_data('sudo service nginx start')

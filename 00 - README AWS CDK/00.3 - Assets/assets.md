@@ -125,6 +125,60 @@ Um uso comum de assets de arquivo é empacotar o código-fonte para funções AW
                                     treat_missing_data = cloudwatch.TreatMissingData.IGNORE)
     ```
 
+Aqui temos uma função lambda que retorna todos os produtos de uma tabela DynamoDB.
+
+```python
+import json
+import os
+import logging
+import boto3 # AWS Python SDK
+
+# Configure logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+# Initialize the DynamoDB client
+dynamodb_client = boto3.client('dynamodb')
+
+def lambda_handler(event, context):
+    '''
+    Retorna todos os produtos da tabela DynamoDB fornecida.
+
+    Variáveis ​​ambientais:
+    - TABLE_NAME: o nome da tabela do DynamoDB verificada.
+    '''
+
+    logger.info(f"Received event: {json.dumps(event, indent=2)}")
+
+    # Scan the DynamoDB table to get all products
+    products = dynamodb_client.scan(
+        TableName=os.environ['TABLE_NAME']
+    )
+
+    return {
+        "statusCode": 200,
+        "body": json.dumps(products['Items'])
+    }
+
+```
+
+Aqui está uma explicação linha por linha:
+
+1. `import json`, `import os`, `import logging`, `import boto3`: Importa os módulos necessários para lidar com JSON, variáveis de ambiente, logging e o SDK da AWS para Python (boto3).
+
+2. `logger = logging.getLogger()` e `logger.setLevel(logging.INFO)`: Configura o logger para o nível de log INFO.
+
+3. `dynamodb_client = boto3.client('dynamodb')`: Inicializa o cliente DynamoDB usando o boto3.
+
+4. `def lambda_handler(event, context):`: Define a função lambda_handler, que é o ponto de entrada da função lambda. Ela recebe dois argumentos, `event` e `context`, que contêm informações sobre o evento que disparou a função e o contexto de execução da função.
+
+5. `logger.info(f"Received event: {json.dumps(event, indent=2)}")`: Registra informações sobre o evento recebido pela função lambda.
+
+6. `products = dynamodb_client.scan(TableName=os.environ['TABLE_NAME'])`: Executa uma operação de scan na tabela DynamoDB especificada pela variável de ambiente `TABLE_NAME` para obter todos os produtos.
+
+7. `return {"statusCode": 200, "body": json.dumps(products['Items'])}`: Retorna uma resposta HTTP com status 200 e o corpo contendo os itens da tabela DynamoDB no formato JSON.
+
+
 ### Funcionamento Interno dos Assets
 
 Quando você usa assets no AWS CDK:

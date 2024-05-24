@@ -12,10 +12,10 @@ dynamodb_client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
     '''
-    Returns all products from the DynamoDB table provided.
+    Retorna todos os produtos da tabela DynamoDB fornecida.
 
-    Environment variables:
-        - TABLE_NAME: The name of the DynamoDB table scanned.
+    Variáveis ​​ambientais:
+    - TABLE_NAME: o nome da tabela do DynamoDB verificada.
     '''
 
     logger.info(f"Received event: {json.dumps(event, indent=2)}")

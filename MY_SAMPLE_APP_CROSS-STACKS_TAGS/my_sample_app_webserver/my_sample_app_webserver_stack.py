@@ -51,5 +51,7 @@ class MySampleAppWebserverStack(Stack):
 
         # Adicionando tags para construções
         Tags.of(web_server).add("category", "webserver")
-        Tags.of(web_server).add("subcategory", "primário",
-                                include_resource_type = ['AWS::EC2::Instance'])
+        Tags.of(web_server).add("subcategory", "primary",
+                                include_resource_types = ['AWS::EC2::Instance'])
+        Tags.of(web_server).add("subcategory", "side",
+                                include_resource_types = ['AWS::EC2::Instance'])
