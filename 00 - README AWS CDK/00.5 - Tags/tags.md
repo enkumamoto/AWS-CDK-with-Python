@@ -1,4 +1,5 @@
-No AWS CDK, as **tags** são usadas para adicionar metadados a recursos da AWS. Essas tags são pares chave-valor que podem ser anexados a quase todos os recursos da AWS e são úteis para fins de gerenciamento, organização, automação e cobrança. As tags permitem categorizar e identificar recursos de maneira mais eficiente.
+# Tags
+As **tags** são usadas para adicionar metadados a recursos da AWS. Essas tags são pares chave-valor que podem ser anexados a quase todos os recursos da AWS e são úteis para fins de gerenciamento, organização, automação e cobrança. As tags permitem categorizar e identificar recursos de maneira mais eficiente.
 
 ### Uso de Tags no Código
 

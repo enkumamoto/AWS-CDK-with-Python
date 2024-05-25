@@ -1,4 +1,5 @@
-Cross-stacks no AWS CDK referem-se à prática de criar múltiplos stacks que compartilham recursos entre si, permitindo uma separação lógica e modularização da infraestrutura. Isso é útil para organizar melhor os recursos e facilitar a manutenção do código.
+# Cross-Stack
+Cross-stacks referem-se à prática de criar múltiplos stacks que compartilham recursos entre si, permitindo uma separação lógica e modularização da infraestrutura. Isso é útil para organizar melhor os recursos e facilitar a manutenção do código.
 
 No exemplo fornecido, temos dois arquivos principais de stacks: `network_stack.py` e `my_sample_app_webserver_stack.py`. O primeiro define uma VPC (Virtual Private Cloud), e o segundo cria uma instância EC2 que usa essa VPC. Abaixo, explico cada parte relevante do código:
 
