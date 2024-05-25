@@ -1,3 +1,4 @@
+# Aspect
 Um **aspecto** (aspect) é uma funcionalidade que permite aplicar ações ou modificações a uma coleção de construções (constructs) dentro de uma pilha (stack) de maneira consistente e sistemática. Os aspectos são usados para inspecionar ou modificar as construções depois que elas foram criadas, mas antes que a síntese (synth) seja realizada, proporcionando uma maneira de aplicar lógica transversal em várias partes da aplicação.
 
 Vamos entender como isso funciona com base nos códigos fornecidos:
