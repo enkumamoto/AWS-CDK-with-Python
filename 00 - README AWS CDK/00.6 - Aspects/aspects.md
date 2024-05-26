@@ -21,7 +21,7 @@ A interface **IAspect** no AWS CDK define um contrato para implementar aspectos.
 
 - **Método `visit`:** Este é o único método que precisa ser implementado. Ele define a lógica que será aplicada a cada construção visitada. O método recebe um parâmetro que representa a construção que está sendo visitada.
 
-### REsumindo
+### Resumindo
 
 - **jsii**: Permite escrever bibliotecas de infraestrutura em TypeScript e usá-las em múltiplas linguagens, facilitando a interoperabilidade e a reutilização de código no AWS CDK.
 - **IAspect**: Define um contrato para implementar aspectos que podem inspecionar e modificar construções dentro de uma pilha, permitindo aplicar lógica transversal de forma consistente.
@@ -80,6 +80,10 @@ Os aspectos são úteis para vários casos, como:
 2. **Validações:** Validar se construções específicas atendem a certos critérios.
 3. **Modificações:** Alterar propriedades de construções existentes.
 4. **Auditoria:** Registrar informações sobre as construções para auditoria ou monitoramento.
+
+### Observações
+1. O AWS CDK permite ter multiplos arquivos para aspects diferentes.
+2. Tembém pode configurar multiplos aspects num mesmo arquivo.
 
 ### Conclusão
 
