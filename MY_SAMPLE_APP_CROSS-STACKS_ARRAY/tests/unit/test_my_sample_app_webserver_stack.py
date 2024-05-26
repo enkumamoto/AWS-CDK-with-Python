@@ -55,17 +55,19 @@ def test_web_server_security_group():
                 'FromPort': 80,
                 'ToPort': 80,
                 'CidrIp': '0.0.0.0/0'
+                'Description': assertions.Match.any_value()
             })
         ])
     })
 
-    template.has_resource_properties('AWS::EC2::SecurityGroup', {
-        'SecurityGroupIngress': assertions.Match.array_with([
-            assertions.Match.object_like({
-                'IpProtocol': 'tcp',
-                'FromPort': 80,
-                'ToPort': 80,
-                'CidrIp': '0.0.0.0/0'
-            })
-        ])
-    })
+    # template.has_resource_properties('AWS::EC2::SecurityGroup', {
+    #     'SecurityGroupIngress': assertions.Match.array_equals([
+    #         assertions.Match.object_equals({
+    #             'IpProtocol': 'tcp',
+    #             'FromPort': 80,
+    #             'ToPort': 80,
+    #             'CidrIp': '0.0.0.0/0'
+    #             'Description': assertions.Match.any_value()
+    #         })
+    #     ])
+    # })
