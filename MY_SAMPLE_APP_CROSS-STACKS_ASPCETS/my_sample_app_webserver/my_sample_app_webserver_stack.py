@@ -16,7 +16,7 @@ class MySampleAppWebserverStack(NestedStack):
         web_server = ec2.Instance(self, 'WebServer',
                                   machine_image=ec2.MachineImage.latest_amazon_linux2(),
                                   instance_type=ec2.InstanceType.of(instance_class=ec2.InstanceClass.T2,
-                                                                    instance_size=ec2.InstanceSize.MICRO),
+                                                                    instance_size=ec2.InstanceSize.SMALL),
                                   vpc=my_vpc,
                                   vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
                                   user_data_causes_replacement=True)
