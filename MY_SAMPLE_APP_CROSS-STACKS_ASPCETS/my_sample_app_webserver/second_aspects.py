@@ -17,3 +17,12 @@ class EC2InstanceTypeChecker:
                 Annotations.of(node).add_warning(f"{node.instance_type} A instância declarada não é válida. A instância deve ser t2.nano ou t3.nano.")
 
                 node.instance_type = 't2.nano'
+
+@jsii.implements(IAspect)
+class SSHAnywhereChecker:
+
+    def visit(self, node):
+
+        if isinstance(node, ec2.CfnSecurityGroup):
+
+            print(node.security_group_ingress.to_string())

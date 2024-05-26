@@ -7,8 +7,7 @@ from my_sample_app_webserver.my_sample_app_webserver_stack import MySampleAppWeb
 from my_sample_app_webserver.network_stack import NetworkStack
 
 from my_sample_app_webserver.aspects import MyFirstAspect
-from my_sample_app_webserver.second_aspects import EC2InstanceTypeChecker
-
+from my_sample_app_webserver.second_aspects import (EC2InstanceTypeChecker, SSHAnywhereChecker)
 app = cdk.App()
 
 root_stack = cdk.Stack(app, "RootStack")
@@ -21,6 +20,7 @@ application_stack = MySampleAppWebserverStack(root_stack, "MySampleAppWebserverS
 
 # Anexando aspects ao stack
 cdk.Aspects.of(root_stack).add(MyFirstAspect())
+cdk.Aspects.of(root_stack).add(SSHAnywhereChecker())
 
 # Anexando validação de aspects ao stack da aplicação
 cdk.Aspects.of(application_stack).add(EC2InstanceTypeChecker())
