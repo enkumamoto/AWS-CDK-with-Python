@@ -83,7 +83,7 @@ Os aspectos são úteis para vários casos, como:
 
 ### Observações
 1. O AWS CDK permite ter multiplos arquivos para aspects diferentes.
-2. Tembém pode configurar multiplos aspects num mesmo arquivo.
+2. Tembém pode configurar multiplos aspects em um mesmo arquivo.
 
 ### Conclusão
 
