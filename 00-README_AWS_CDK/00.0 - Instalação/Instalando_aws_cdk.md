@@ -98,7 +98,17 @@ Durante a inicialização do projeto, o CDK criará um arquivo requirements.txt.
 pip install -r requirements.txt
 ```
 
-## Passo 8: Sintetizar e Implantar a Pilha
+## Passo 8: Bootstrap da Stack
+
+Antes de implantar a stack, você precisa "bootstrap" do ambiente. Isso cria recursos necessários no CloudFormation para suportar o CDK.
+
+```bash
+cdk bootstrap aws://<account-id>/<region>
+```
+
+Substitua `<account-id>` pelo ID da sua conta AWS e `<region>` pela região onde você deseja implantar os recursos (por exemplo, `us-east-1`).
+
+## Passo 9: Sintetizar e Implantar a Pilha
 
 Depois de configurar tudo, você pode sintetizar (gerar) o CloudFormation template e implantar a pilha:
 
@@ -110,7 +120,7 @@ cdk synth
 cdk deploy
 ```
 
-## Passo 9: Limpar Recursos
+## Passo 10: Limpar Recursos
 
 Para excluir os recursos criados, você pode usar o comando:
 
