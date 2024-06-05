@@ -1,13 +1,13 @@
 ### Estrutura dos Arquivos Terraform/OpenTofu
 
-Criando uma infraestrutura simples que inclui VPC, Lambda, DynamoDB e S3. 
+Criando uma infraestrutura simples que inclui VPC e S3. 
 
 #### 1. `variables.tf`
 ```hcl
 variable "region" {
   description = "AWS region to deploy resources"
   type        = string
-  default     = "us-east-1"
+  default     = "us-aest-1"
 }
 
 variable "vpc_cidr" {
@@ -15,52 +15,21 @@ variable "vpc_cidr" {
   type        = string
   default     = "10.0.0.0/16"
 }
-
-# variable "lambda_s3_bucket" {
-#   description = "S3 bucket where the Lambda function code is stored"
-#   type        = string
-#   default     = "my-lambda-bucket"
-# }
-
-# variable "lambda_s3_key" {
-#   description = "S3 key for the Lambda function code"
-#   type        = string
-#   default     = "my-lambda.zip"
-# }
-
-# variable "lambda_role_name" {
-#   description = "IAM role name for the Lambda function"
-#   type        = string
-#   default     = "my-lambda-role"
-# }
-
-# variable "lambda_function_name" {
-#   description = "Name of the Lambda function"
-#   type        = string
-#   default     = "my-lambda-function"
-# }
-
-# variable "lambda_handler" {
-#   description = "Handler for the Lambda function"
-#   type        = string
-#   default     = "index.handler"
-# }
-
-# variable "lambda_runtime" {
-#   description = "Runtime for the Lambda function"
-#   type        = string
-#   default     = "nodejs16.x"
-# }
-
-variable "dynamodb_name" {
-  description = "The name of the DynamoDB table"
-  default     = "eiji_dynamodb"
-}```
+```
 
 #### 2. `provider.tf`
 ```hcl
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.52.0"
+    }
+  }
+}
+
 provider "aws" {
-  region = var.region
+  # Configuration options
 }
 ```
 
@@ -74,6 +43,8 @@ resource "aws_vpc" "main" {
   }
 }
 
+#### 4. `aws_subnet.tf`
+```hcl
 resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.1.0/24"
@@ -95,69 +66,61 @@ resource "aws_subnet" "private" {
 }
 ```
 
-#### 4. `s3.tf`
+#### 5. `s3.tf`
 ```hcl
-resource "aws_s3_bucket" "lambda_bucket" {
-  bucket = var.lambda_s3_bucket
+resource "aws_s3_bucket" "my-bucket" {
+  bucket = "eiji-tf-test-bucket"
 
   tags = {
-    Name = "lambda-code-bucket"
+    Name        = "Eiji bucket"
+    Environment = "Dev"
   }
 }
 ```
 
-#### 5. `dynamodb.tf`
+#### 6. `dynamodb.tf`
 ```hcl
-resource "aws_dynamodb_table" "main" {
-  name           = "main-table"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "id"
+resource "aws_dynamodb_table" "basic-dynamodb-table" {
+  name           = var.dynamodb_name
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 20
+  write_capacity = 20
+  hash_key       = "UserId"
+  range_key      = "GameTitle"
 
   attribute {
-    name = "id"
+    name = "UserId"
     type = "S"
   }
 
-  tags = {
-    Name = "main-dynamodb-table"
+  attribute {
+    name = "GameTitle"
+    type = "S"
   }
-}
-```
 
-#### 6. `lambda.tf`
-```hcl
-resource "aws_iam_role" "lambda_exec_role" {
-  name = "lambda_exec_role"
+  attribute {
+    name = "TopScore"
+    type = "N"
+  }
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "lambda.amazonaws.com"
-        }
-      }
-    ]
-  })
-}
+  ttl {
+    attribute_name = "TimeToExist"
+    enabled        = false
+  }
 
-resource "aws_iam_role_policy_attachment" "lambda_policy" {
-  role       = aws_iam_role.lambda_exec_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
-resource "aws_lambda_function" "main" {
-  function_name = "main-lambda"
-  s3_bucket     = var.lambda_s3_bucket
-  s3_key        = var.lambda_s3_key
-  handler       = "index.handler"
-  runtime       = "python3.8"
-  role          = aws_iam_role.lambda_exec_role.arn
+  global_secondary_index {
+    name               = "GameTitleIndex"
+    hash_key           = "GameTitle"
+    range_key          = "TopScore"
+    write_capacity     = 10
+    read_capacity      = 10
+    projection_type    = "INCLUDE"
+    non_key_attributes = ["UserId"]
+  }
 
   tags = {
-    Name = "main-lambda-function"
+    Name        = "dynamodb-table-1"
+    Environment = "production"
   }
 }
 ```
