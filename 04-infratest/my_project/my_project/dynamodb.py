@@ -10,5 +10,5 @@ class DynamoDBStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         self.table = dynamodb.Table(self, "MyTable",
-            partition_key={'name': 'id', 'type': dynamodb.AttributeType.STRING}
+            partition_key = {'name': 'id', 'type': dynamodb.AttributeType.STRING}
         )

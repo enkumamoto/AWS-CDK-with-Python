@@ -20,7 +20,7 @@ MyProjectStack(app, "MyProjectStack")
 
 vpc_stack = VPCStack(app, "VPCStack")
 lambda_stack = LambdaStack(app, "LambdaStack")
-api_gateway_stack = ApiGatewayStack(app, "ApiGatewayStack", lambda_function=_lambda_stack.lambda_function)
+api_gateway_stack = ApiGatewayStack(app, "ApiGatewayStack", lambda_function = _lambda_stack.lambda_function)
 dynamodb_stack = DynamoDBStack(app, "DynamoDBStack")
 cloudfront_stack = CloudFrontStack(app, "CloudFrontStack")
 sns_stack = SNSStack(app, "SNSStack")

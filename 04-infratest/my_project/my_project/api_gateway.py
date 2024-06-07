@@ -10,5 +10,5 @@ class ApiGatewayStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         api = apigateway.LambdaRestApi(self, "MyApi",
-            handler=lambda_function
+            handler = lambda_function
         )

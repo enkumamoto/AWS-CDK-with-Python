@@ -13,10 +13,10 @@ class CloudFrontStack(Stack):
         bucket = s3.Bucket(self, "MyBucket")
 
         distribution = cloudfront.CloudFrontWebDistribution(self, "MyDistribution",
-            origin_configs=[cloudfront.SourceConfiguration(
-                s3_origin_source=cloudfront.S3OriginConfig(
-                    s3_bucket_source=bucket
+            origin_configs = [cloudfront.SourceConfiguration(
+                s3_origin_source = cloudfront.S3OriginConfig(
+                    s3_bucket_source = bucket
                 ),
-                behaviors=[cloudfront.Behavior(is_default_behavior=True)]
+                behaviors = [cloudfront.Behavior(is_default_behavior = True)]
             )]
         )

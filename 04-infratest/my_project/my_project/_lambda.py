@@ -14,16 +14,16 @@ class LambdaStack(Stack):
         repository = ecr.Repository.from_repository_name(self, "MyRepo", "my-lambda-repo")
 
         role = iam.Role(self, "LambdaExecutionRole",
-            assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"),
-            managed_policies=[
+            assumed_by = iam.ServicePrincipal("lambda.amazonaws.com"),
+            managed_policies = [
                 iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaBasicExecutionRole")
             ]
         )
 
         self.lambda_function = _lambda.DockerImageFunction(self, "MyFunction",
-            code=_lambda.DockerImageCode.from_ecr(repository),
-            role=role,
-            environment={
+            code = _lambda.DockerImageCode.from_ecr(repository),
+            role = role,
+            environment = {
                 'KEY': 'VALUE'
             }
         )

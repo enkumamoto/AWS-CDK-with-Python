@@ -15,5 +15,5 @@ class MyProjectStack(Stack):
         # example resource
         # queue = sqs.Queue(
         #     self, "MyProjectQueue",
-        #     visibility_timeout=Duration.seconds(300),
+        #     visibility_timeout = Duration.seconds(300),
         # )
