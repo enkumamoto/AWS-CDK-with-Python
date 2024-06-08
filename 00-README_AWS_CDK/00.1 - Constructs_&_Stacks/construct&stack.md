@@ -35,30 +35,37 @@ Aqui está um exemplo básico em Python, onde criamos uma stack com um bucket S3
 
 ```python
 from aws_cdk import (
-    core,
-    aws_s3 as s3
+    Stack,
+    aws_s3 as s3,
+    Duration,
+    CfnOutput,
 )
 
-class MyFirstStack(core.Stack):
+class MyFirstStack(Stack):
 
-    def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
-        super().__init__(scope, id, **kwargs)
+   def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+      super().__init__(scope, construct_id, **kwargs)
 
-        # Construção de nível 2 para criar um bucket S3
-        my_bucket = s3.Bucket(self, 
-                              "MyFirstBucket", 
-                              versioned=True,
-                              removal_policy=core.RemovalPolicy.DESTROY)
+      bucket = s3.Bucket(self, "TestBucket",
+               lifecycle_rules = [
+                  s3.LifecycleRule(
+                     expiration = Duration.days(3)
+                  )
+               ]
+               )
+      CfnOutput(self, "BucketName", 
+               value = bucket.bucket_name)
 
-app = core.App()
+app = cdk.App()
 MyFirstStack(app, "MyFirstStack")
 app.synth()
 ```
 
 Neste exemplo:
-- Definimos uma classe `MyFirstStack` que herda de `core.Stack`.
+- Definimos uma classe `MyFirstStack` que herda de `Stack`.
 - Dentro do construtor da stack, criamos um bucket S3 usando a construção de nível 2 `s3.Bucket`.
 - A stack `MyFirstStack` é então instanciada e adicionada ao aplicativo CDK (`app`), e o método `synth()` é chamado para sintetizar o modelo CloudFormation.
+- s3.LifecycleRule determina que os arquivos no s# expiram em 3 dias
 
 ### Resumo
 
