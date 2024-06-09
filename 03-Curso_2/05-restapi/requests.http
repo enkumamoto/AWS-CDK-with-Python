@@ -1,0 +1,13 @@
+@url = https://h1tmhrbw5l.execute-api.us-east-1.amazonaws.com/prod/
+
+GET {{url}}/empl
+###
+
+# POST{{url}}/empl
+# content-type: application/json
+
+# {
+#     "name": "Eiji"
+#     "position": "engineer"
+# }
+###
