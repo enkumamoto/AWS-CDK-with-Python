@@ -1,13 +1,13 @@
-@url = https://h1tmhrbw5l.execute-api.us-east-1.amazonaws.com/prod/
+@url = https://mhb546k8u9.execute-api.us-east-1.amazonaws.com/prod/
 
-GET {{url}}/empl
+GET {{url}}/empl?id=5daac081-4770-4c46-9fe7-6a22d7dceab9
 ###
 
-# POST{{url}}/empl
-# content-type: application/json
+POST {{url}}/empl
+content-type: application/json
 
-# {
-#     "name": "Eiji"
-#     "position": "engineer"
-# }
+{
+    "name": "Eiji",
+    "position": "engineer"
+}
 ###

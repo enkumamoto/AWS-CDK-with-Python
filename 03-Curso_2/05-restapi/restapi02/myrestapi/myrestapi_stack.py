@@ -19,7 +19,7 @@ class MyRestapiStack(Stack):
                 name = "id",
                 type = dynamodb.AttributeType.STRING
             ),
-            billing = dynamodb.BillingMode.on_demand(),
+            billing = dynamodb.Billing.on_demand(),
         )
 
         empl_lambda = _lambda.Function (
@@ -30,8 +30,10 @@ class MyRestapiStack(Stack):
             handler = "index.handler",
             environment = {
                 "TABLE_NAME": empl_table.table_name
-            }
+            },
         )
+
+        empl_table.grant_read_write_data(empl_lambda)
 
         api = apigw.RestApi(self, "Empl-Api")
         empl_resource = api.root.add_resource("empl")
