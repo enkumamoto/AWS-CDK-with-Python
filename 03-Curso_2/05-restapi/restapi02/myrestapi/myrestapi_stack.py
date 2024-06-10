@@ -1,54 +1,52 @@
 from aws_cdk import (
-    # Importando as classes necessárias da AWS CDK para construir a infraestrutura
-    Stack,
-    aws_apigateway as apigw,
-    aws_lambda as _lambda,
-    aws_dynamodb as dynamodb
+    Stack,  # Importação da classe Stack do pacote aws_cdk
+    aws_apigateway as apigw,  # Alias para o módulo aws_apigateway
+    aws_lambda as _lambda,  # Alias para o módulo aws_lambda
+    aws_dynamodb as dynamodb  # Alias para o módulo aws_dynamodb
 )
 
 from constructs import Construct
 
-class MyRestapiStack(Stack):
+class MyRestapiStack(Stack):  # Classe personalizada que estende a classe Stack do AWS CDK
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
-        # Chamando o construtor da classe base para inicializar este stack
-        super().__init__(scope, construct_id, **kwargs)
+        super().__init__(scope, construct_id, **kwargs)  # Chamada ao construtor da classe pai
 
-        # Definindo uma tabela no DynamoDB para armazenar informações de empregados
+        # Criação de uma tabela no DynamoDB
         empl_table = dynamodb.TableV2(
-            self,  # Referenciando o próprio stack
+            self,
             "EmplTable",  # ID da tabela
-            partition_key=dynamodb.Attribute(  # Definindo a chave de partição
-                name="id",  # Nome da chave
-                type=dynamodb.AttributeType.STRING  # Tipo da chave
+            partition_key=dynamodb.Attribute(  # Definição da chave primária
+                name="id",
+                type=dynamodb.AttributeType.STRING
             ),
             billing=dynamodb.Billing.on_demand(),  # Configuração de cobrança
         )
 
-        # Criando uma função Lambda para processar requisições relacionadas a empregados
+        # Criação de um Lambda Function
         empl_lambda = _lambda.Function(
-            self,  # Referenciando o próprio stack
+            self,
             "EmplLambda",  # ID da função Lambda
-            runtime=_lambda.Runtime.PYTHON_3_10,  # Especificando a versão do Python
+            runtime=_lambda.Runtime.PYTHON_3_11,  # Runtime especificado
             code=_lambda.Code.from_asset("services"),  # Caminho para o código da função
-            handler="index.handler",  # Função dentro do arquivo index.py que será chamada
-            environment={  # Variáveis de ambiente passadas para a função Lambda
-                "TABLE_NAME": empl_table.table_name  # Nome da tabela do DynamoDB
+            handler="index.handler",  # Função de entrada
+            environment={  # Variáveis de ambiente
+                "TABLE_NAME": empl_table.table_name
             },
         )
 
-        # Concedendo permissões à função Lambda para acessar a tabela do DynamoDB
-        empl_table.grant_read_write_data(empl_lambda)
+        # Concessão de permissões para a função Lambda acessar a tabela DynamoDB
+        empl_table.grant_read_write_data(empl_lambda) 
 
-        # Criando uma API Gateway REST
+        # Criação da API Gateway
         api = apigw.RestApi(self, "Empl-Api")
 
-        # Adicionando um recurso à raiz da API para representar empregados
+        # Adição de um recurso à raiz da API
         empl_resource = api.root.add_resource("empl")
 
-        # Configurando a integração entre o recurso da API e a função Lambda
+        # Integração da função Lambda com o método GET e POST do recurso
         empl_lambda_integration = apigw.LambdaIntegration(empl_lambda)
 
-        # Associando métodos HTTP GET e POST ao recurso da API com a função Lambda
+        # Associação dos métodos GET e POST do recurso à integração Lambda
         empl_resource.add_method("GET", empl_lambda_integration)
         empl_resource.add_method("POST", empl_lambda_integration)
