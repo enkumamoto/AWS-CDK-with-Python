@@ -6,7 +6,7 @@ http = urllib3.PoolManager()  # Cria um PoolManager para realizar requisições 
 def handler(event, context):  # Define a função lambda_handler que será chamada por eventos
     print("Calling Slack!!!")  # Imprime uma mensagem indicando que a chamada ao Slack está sendo feita
     
-    url = "https://hooks.slack.com/services/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"  # Variável vazia para armazenar a URL da API do Slack
+    url = ""  # Variável vazia para armazenar a URL da API do Slack
     msg = {  # Dicionário contendo a mensagem a ser enviada ao Slack
         "channel" : "#aws-events",  # Canal no Slack onde a mensagem será enviada
         "text" : event["Records"][0]["Sns"]["Message"],  # Texto da mensagem, obtido do evento SNS
