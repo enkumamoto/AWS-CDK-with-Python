@@ -1,3 +1,20 @@
+# O que é AWS CDK?
+
+O AWS CDK (Cloud Development Kit) é uma ferramenta que permite definir sua infraestrutura na AWS usando linguagens de programação familiares como Python, JavaScript, TypeScript, Java, e C#. Em vez de escrever longos arquivos de configuração JSON ou YAML, você pode usar o CDK para escrever código que define e provisiona recursos da AWS de maneira mais intuitiva e modular.
+
+Aqui estão alguns pontos-chave sobre o AWS CDK:
+
+1. **Codificação em Linguagens Familiares**: Você pode usar linguagens de programação que já conhece, o que facilita a integração da infraestrutura como código (IaC) com o desenvolvimento de aplicações.
+
+2. **Componentes Reutilizáveis**: O CDK permite criar componentes reutilizáveis chamados "Constructs". Esses Constructs podem ser usados para definir padrões de infraestrutura que você pode reutilizar em diferentes partes do seu projeto ou em diferentes projetos.
+
+3. **Stacks e App**: No CDK, você organiza seus recursos em "Stacks". Uma Stack é um contêiner que agrupa recursos relacionados. Um aplicativo CDK (App) pode conter várias Stacks.
+
+4. **Infraestrutura como Código (IaC)**: O CDK gera CloudFormation templates a partir do seu código. O CloudFormation é um serviço que permite gerenciar seus recursos da AWS através de templates.
+
+5. **Bibliotecas Ricas**: O CDK vem com um conjunto de bibliotecas que facilitam a criação de recursos comuns, como APIs, bancos de dados, funções Lambda, redes, e muito mais.
+---
+
 # Conceitos de Contruções e Stacks
 
 No AWS CDK (Cloud Development Kit), os conceitos de **construções** (constructs) e **stacks** são fundamentais para a organização e gerenciamento de recursos da infraestrutura como código.
