@@ -47,3 +47,22 @@ class MonitoringStack(Stack):
         topic_action = cw_actions.SnsAction(alarm_topic)
         alarm.add_alarm_action(topic_action)
         alarm.add_ok_action(topic_action)
+
+        api_alarm = aws_cloudwatch.Alarm(
+            self,
+            "Api4xxAlarm",
+            metric = aws_cloudwatch.Metric(
+                metric_name = "4XXError",
+                namespace = "AWS/ApiGateway",
+                period = Duration.minutes(1),
+                statistic = "Sum",
+                dimensions_map = {
+                    "ApiName": "Eiji-Api"
+                }
+            ),
+            evaluation_periods = 1,
+            threshold = 100,            
+        )
+
+        api_alarm.add_alarm_action(topic_action)
+        api_alarm.add_ok_action(topic_action)

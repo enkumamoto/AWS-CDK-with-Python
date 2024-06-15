@@ -48,7 +48,7 @@ class MyRestapiStack(Stack):
         empl_table.grant_read_write_data(empl_lambda) 
 
         # Cria uma API REST chamada "Empl-Api"
-        api = apigw.RestApi(self, "Empl-Api")
+        api = apigw.RestApi(self, "Eiji-Api")
 
         # Define as opções de CORS para a API, permitindo solicitações de qualquer origem e todos os métodos HTTP
         cors_options = apigw.CorsOptions(

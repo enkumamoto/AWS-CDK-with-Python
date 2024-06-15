@@ -1,8 +1,8 @@
-@url = https://mrkoisp1fg.execute-api.us-east-1.amazonaws.com/prod/
+@url = https://982qxu4zrh.execute-api.us-east-1.amazonaws.com/prod/
 
 # Realiza uma requisição GET para o endpoint '/empl' com um parâmetro 'id'
 # Este endpoint provavelmente busca informações sobre um empregado específico pelo seu ID.
-GET {{url}}/empl?id=b3bd3c8b-4bf3-4d09-ba7d-48c5322b62fa
+GET {{url}}/empl?id=7e8113b8-2518-494f-b9fb
 ###
 
 # Realiza uma requisição POST para o endpoint '/empl'

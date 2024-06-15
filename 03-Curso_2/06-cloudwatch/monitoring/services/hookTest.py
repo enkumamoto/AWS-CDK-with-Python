@@ -1,4 +1,4 @@
-from hook import lambda_handler  # Importa a função lambda_handler do módulo 'hook'
+from hook import handler  # Importa a função handler do módulo 'hook'
 
 event = {  # Define um dicionário simbolizando um evento
     'Records' : [{  # O evento é estruturado como uma lista de registros
@@ -8,4 +8,4 @@ event = {  # Define um dicionário simbolizando um evento
     }]
 }
 
-lambda_handler(event, {})  # Chama a função lambda_handler passando o evento simulado e um contexto vazio
+handler(event, {})  # Chama a função handler passando o evento simulado e um contexto vazio
