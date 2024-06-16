@@ -2,7 +2,10 @@
 import aws_cdk as core
 import aws_cdk.assertions as assertions
 import pytest
-from aws_cdk.assertions import Match
+from aws_cdk.assertions import (
+    Match,
+    Capture
+)
 
 # Importa a classe que será testada
 from pysimple.pysimple_stack import PysimpleStack
@@ -61,3 +64,23 @@ def test_lambda_bucket_matchers(simple_template):
             }
         )
     )
+
+# Captura as ações realizadas pela função Lambda na política IAM
+lambda_actions_captor = Capture()
+
+# Verifica se existe uma política IAM com uma estrutura específica,
+# incluindo referências a um recurso chamado "SimpleBucket"
+simple_template.has_resource_properties(
+    "AWS::IAM::Policy",
+    {"PolicyDocument": {"Statement": [{"Action": lambda_actions_captor}]}},
+)
+
+# Define as ações esperadas que a função Lambda pode realizar
+expected_actions = [
+    "s3:GetBucket*",
+    "s3:GetObject*",
+    "s3:List*"
+]
+
+# Compara as ações capturadas com as ações esperadas, ignorando a ordem
+assert sorted(lambda_actions_captor.as_array()) == sorted(expected_actions)
