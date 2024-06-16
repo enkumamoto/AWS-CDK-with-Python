@@ -7,22 +7,16 @@ from tags.tags_stack import TagsStack
 
 
 app = cdk.App()
-TagsStack(app, "TagsStack",
-    # If you don't specify 'env', this stack will be environment-agnostic.
-    # Account/Region-dependent features and context lookups will not work,
-    # but a single synthesized template can be deployed anywhere.
+others_stack = TagsStack(app, "TagsStack")
 
-    # Uncomment the next line to specialize this stack for the AWS Account
-    # and Region that are implied by the current CLI configuration.
+cdk.Tags.of(others_stack).add('env', 'sandbox') # Esta linha coloca uma tags a todos os recursos
 
-    #env=cdk.Environment(account=os.getenv('CDK_DEFAULT_ACCOUNT'), region=os.getenv('CDK_DEFAULT_REGION')),
+cdk.Tags.of(others_stack).add('storage', 'sandbox',
+                              include_resource_types = ["AWS::S3::Bucket"],
+                              priority = 150
+                             ) # Esta linha coloca uma tags ao bucket
 
-    # Uncomment the next line if you know exactly what Account and Region you
-    # want to deploy the stack to. */
 
-    #env=cdk.Environment(account='123456789012', region='us-east-1'),
 
-    # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
-    )
 
 app.synth()
