@@ -2,7 +2,7 @@ name: python cdk deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main"]
 
 jobs:
   build:
@@ -16,18 +16,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: install web app dependecies
+      - name: install web app dependencies
         working-directory: ./03-Curso_2/07-CICD_n_WebDeploy/web
         run: npm ci
 
+      # Adicionando etapa de teste aqui
+      - name: Run tests
+        working-directory: ./03-Curso_2/07-CICD_n_WebDeploy/web
+        run: npm test
+
       - name: build web app
         working-directory: ./03-Curso_2/07-CICD_n_WebDeploy/web
-        run: npm run biuld
+        run: npm run build
 
       - name: install AWS CDK
         run: sudo npm i -g aws-cdk
 
-      - name: install deployment dependecies
+      - name: install deployment dependencies
         working-directory: ./03-Curso_2/07-CICD_n_WebDeploy/CFS3
         run: pip install -r requirements.txt
 
