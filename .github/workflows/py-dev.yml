@@ -18,11 +18,11 @@ jobs:
 
       - name: install web app dependecies
         working-directory: ./03-Curso_2/07-CICD_n_WebDeploy/web
-        run: sudo npm ci
+        run: npm ci
 
       - name: build web app
         working-directory: ./03-Curso_2/07-CICD_n_WebDeploy/web
-        run: sudo npm run biuld
+        run: npm run biuld
 
       - name: install AWS CDK
         run: sudo npm i -g aws-cdk
