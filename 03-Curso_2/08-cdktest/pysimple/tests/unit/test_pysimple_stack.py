@@ -87,7 +87,9 @@ def test_lambda_bucket_captures(simple_template):
     assert sorted(lambda_actions_captor.as_array()) == sorted(expected_actions)
 
 def test_bucket_porps_snapshots(simple_template, snapshot):
+    # Encontra todos os recursos do tipo S3 Bucket na stack
     bucket_template = simple_template.find_resources(
         "AWS::S3::Bucket"
     )
+    # Compara o template encontrado com um snapshot para garantir que ele corresponda ao esperado
     assert bucket_template == snapshot

@@ -1,28 +1,36 @@
 #!/usr/bin/env python3
+# Importação do módulo os para interagir com o sistema operacional
 import os
 
+# Importação do módulo aws_cdk, que permite criar infraestrutura na AWS usando o modelo de código CDK
 import aws_cdk as cdk
 
-from patterns.patterns_stack import PatternsStack
+# Importação de componentes específicos do projeto, como AspectsStack, PolicyChecker e S3tolambdaStack
+from patterns.aspects_stack import AspectsStack
+from patterns.policychecker import PolicyChecker
+from patterns.s3tolambda import S3tolambdaStack
 
-
+# Inicialização da aplicação CDK
 app = cdk.App()
-PatternsStack(app, "PatternsStack",
-    # If you don't specify 'env', this stack will be environment-agnostic.
-    # Account/Region-dependent features and context lookups will not work,
-    # but a single synthesized template can be deployed anywhere.
 
-    # Uncomment the next line to specialize this stack for the AWS Account
-    # and Region that are implied by the current CLI configuration.
+# Criação de uma instância da stack AspectsStack, passando a aplicação e um identificador único
+others_stack = AspectsStack(app, "AspectsStack")
 
-    #env=cdk.Environment(account=os.getenv('CDK_DEFAULT_ACCOUNT'), region=os.getenv('CDK_DEFAULT_REGION')),
+# Criação de uma instância da stack S3tolambdaStack, passando a aplicação e um identificador único
+# Note que não há atribuição dessa instância a nenhuma variável, então ela será criada mas não utilizada diretamente aqui
+S3tolambdaStack(app, "S3tolambdaStack")
 
-    # Uncomment the next line if you know exactly what Account and Region you
-    # want to deploy the stack to. */
+# Adição de uma tag 'env' a todos os recursos da stack AspectsStack, com o valor 'sandbox'
+cdk.Tags.of(others_stack).add('env', 'sandbox')
 
-    #env=cdk.Environment(account='123456789012', region='us-east-1'),
+# Adição de uma tag 'storage' apenas aos buckets S3 da stack AspectsStack, com o valor 'sandbox'
+# Isso é feito especificando o tipo de recurso e a prioridade da tag
+cdk.Tags.of(others_stack).add('storage', 'sandbox',
+                             include_resource_types=["AWS::S3::Bucket"],
+                             priority=150)
 
-    # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
-    )
+# Adição do aspecto PolicyChecker à aplicação, para realizar verificações de políticas durante a construção
+cdk.Aspects.of(app).add(PolicyChecker())
 
+# Chamada para sintetizar a aplicação, gerando os recursos na AWS conforme definido nas stacks
 app.synth()
