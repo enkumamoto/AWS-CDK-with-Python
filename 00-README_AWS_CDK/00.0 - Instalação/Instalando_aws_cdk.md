@@ -6,8 +6,7 @@ Como instalar o AWS Cloud Development Kit (CDK) e suas dependências no Ubuntu 2
 Primeiro, certifique-se de que seu sistema está atualizado. Abra o terminal e execute:
 
 ```
-sudo apt update
-sudo apt upgrade -y
+sudo apt update -y && sudo apt upgrade -y
 ```
 
 ## Passo 2: Instale o Node.js e o npm
