@@ -1,3 +1,13 @@
 {
-  "app": "python3 app.py"
+  "app": "python3 app.py",
+  "context": {
+    "region": "us-east-1",
+    "account_id": "930837413038",
+    "location": "us-east-1",
+    "aws_profile": "default",
+    "environment": "staging",
+    "initial_db_name": "postgres",
+    "master_password": "vyCc8eyoUrQ0w03B7TOC",
+    "master_username": "obsidianadmin"
+  }
 }
